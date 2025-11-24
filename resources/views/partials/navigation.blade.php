@@ -13,7 +13,7 @@
                     <a class="nav-link" href="{{ route('shipments.index') }}">Shipments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Contact</a>
+                    <a class="nav-link" href="{{ route('shipments.create') }}">Add - 📦</a>
                 </li>
             </ul>
         </div>

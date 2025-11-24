@@ -1,6 +1,12 @@
 @extends('partials.layout')
 
 @section('content')
+    @if(session('success'))
+        <div class="text-center alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="container mt-5">
         <div class="row">
             @foreach($shipments as $shipment)

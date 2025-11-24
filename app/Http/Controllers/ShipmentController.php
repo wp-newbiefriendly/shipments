@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewShipmentRequest;
 use App\Models\Shipments;
 use Illuminate\Http\Request;
 
@@ -28,36 +29,25 @@ class ShipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(NewShipmentRequest $request)
     {
-        // Validacija podataka sa forme
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'from_city' => 'required|string|max:255',
-            'from_country' => 'required|string|max:255',
-            'to_city' => 'required|string|max:255',
-            'to_country' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'status' => 'required|string',
-            'user_id' => 'required|exists:users,id', // Ako korisnik postoji
-            'details' => 'nullable|string',
-        ]);
+         dd($request->validate());
 
-        // Kreiraj novu pošiljku
-        Shipment::create([
-            'title' => $request->title,
-            'from_city' => $request->from_city,
-            'from_country' => $request->from_country,
-            'to_city' => $request->to_city,
-            'to_country' => $request->to_country,
-            'price' => $request->price,
-            'status' => $request->status,
-            'user_id' => $request->user_id,
-            'details' => $request->details,
-        ]);
+//        // Kreiraj novu pošiljku
+//        Shipments::create([
+//            'title' => $request->title,
+//            'from_city' => $request->from_city,
+//            'from_country' => $request->from_country,
+//            'to_city' => $request->to_city,
+//            'to_country' => $request->to_country,
+//            'price' => $request->price,
+//            'status' => $request->status,
+//            'user_id' => $request->user_id,
+//            'details' => $request->details,
+//        ]);
 
         // Preusmeri korisnika i prikaži poruku o uspehu
-        return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
+//        return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
     }
 
     /**
