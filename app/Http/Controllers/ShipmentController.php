@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewShipmentRequest;
-use App\Models\Shipments;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -16,19 +16,18 @@ class ShipmentController extends Controller
     {
         $cacheKey = 'shipments_unassigned';
 
-        $shipments = Cache::remember($cacheKey, 600, function () {
-            return Shipments::where('status', Shipments::STATUS_UNASSIGNED)
-                ->orderBy('created_at', 'desc')
-                ->get();
-        });
+        $shipments = Cache::remember($cacheKey, 600,
+                fn() => Shipment::where(['status' => Shipment::STATUS_UNASSIGNED])
+                ->get()
+        );
 
         return view('shipments.index', compact('shipments'));
     }
-    public function permalink(Shipments $shipment) {
-
-        return view('shipments.permalink', compact('shipment'));
-
-    }
+//    public function permalink(Shipments $shipment) {
+//
+//        return view('shipments.permalink', compact('shipment'));
+//
+//    }
 
     public function create()
     {
@@ -37,19 +36,21 @@ class ShipmentController extends Controller
 
     public function store(NewShipmentRequest $request)
     {
-        Shipments::create($request->all());
+        Shipment::create($request->all());
         return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
     }
 
-    public function show(Shipments $shipments)
+    public function show(Shipment $shipment)
     {
+
+        return view('shipments.show', compact('shipment'));
 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Shipments $shipments)
+    public function edit(Shipment $shipments)
     {
         //
     }
@@ -57,7 +58,7 @@ class ShipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipments $shipments)
+    public function update(Request $request, Shipment $shipments)
     {
         //
     }
@@ -65,7 +66,7 @@ class ShipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shipments $shipments)
+    public function destroy(Shipment $shipments)
     {
         //
     }

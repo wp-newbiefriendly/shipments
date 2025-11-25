@@ -7,5 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('shipments', ShipmentController::class);
-Route::get('/shipments/{shipment}', [ShipmentController::class, 'permalink'])->name('shipments.permalink');
+Route::resource('shipments', ShipmentController::class)
+   ->parameters(['shipments' => 'shipment']);
+
+//Route::get('/shipments/{shipment}', [ShipmentController::class, 'permalink'])->name('shipments.permalink');
