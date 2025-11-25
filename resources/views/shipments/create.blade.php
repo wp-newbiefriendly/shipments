@@ -1,3 +1,4 @@
+@php use App\Models\Shipments; @endphp
 @extends('partials.layout')
 
 @section('content')
@@ -39,11 +40,12 @@
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
                 <select class="form-control" id="status" name="status" required>
-                    <option value="Pending">Pending</option>
-                    <option value="Done">Done</option>
-                    <option value="Active">Active</option>
+                    @foreach(Shipments::ALLOWED_STATUSES as $status)
+                        <option value="{{ $status }}">{{ $status }}</option>
+                    @endforeach
                 </select>
             </div>
+
 
             <div class="mb-3">
                 <label for="user_id" class="form-label">User ID</label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewShipmentRequest;
 use App\Models\Shipments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ShipmentController extends Controller
 {
@@ -13,49 +14,36 @@ class ShipmentController extends Controller
      */
     public function index()
     {
-        return view('shipments.index', [
-            'shipments' => Shipments::all()
-        ]);
+        $cacheKey = 'shipments_unassigned';
+
+        $shipments = Cache::remember($cacheKey, 600, function () {
+            return Shipments::where('status', Shipments::STATUS_UNASSIGNED)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        });
+
+        return view('shipments.index', compact('shipments'));
+    }
+    public function permalink(Shipments $shipment) {
+
+        return view('shipments.permalink', compact('shipment'));
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('shipments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(NewShipmentRequest $request)
     {
-         dd($request->validate());
-
-//        // Kreiraj novu pošiljku
-//        Shipments::create([
-//            'title' => $request->title,
-//            'from_city' => $request->from_city,
-//            'from_country' => $request->from_country,
-//            'to_city' => $request->to_city,
-//            'to_country' => $request->to_country,
-//            'price' => $request->price,
-//            'status' => $request->status,
-//            'user_id' => $request->user_id,
-//            'details' => $request->details,
-//        ]);
-
-        // Preusmeri korisnika i prikaži poruku o uspehu
-//        return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
+        Shipments::create($request->all());
+        return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Shipments $shipments)
     {
-        //
+
     }
 
     /**

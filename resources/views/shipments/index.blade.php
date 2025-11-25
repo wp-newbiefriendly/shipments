@@ -2,7 +2,7 @@
 
 @section('content')
     @if(session('success'))
-        <div class="text-center alert alert-success">
+        <div class="text-center alert alert-success" id="successMessage">
             {{ session('success') }}
         </div>
     @endif
@@ -72,3 +72,16 @@
     }
 
 </style>
+<script>
+    // Provera da li postoji poruka sa uspehom
+    document.addEventListener('DOMContentLoaded', function() {
+        var successMessage = document.getElementById('successMessage');
+
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 2000);
+        }
+    });
+</script>
+

@@ -4,9 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 class Shipments extends Model
 {
     use HasFactory;
+
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_UNASSIGNED = 'unassigned';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_PROBLEM = 'problem';
+
+    const ALLOWED_STATUSES = [
+        self::STATUS_IN_PROGRESS,
+        self::STATUS_UNASSIGNED,
+        self::STATUS_COMPLETED,
+        self::STATUS_PROBLEM,
+    ];
     protected $fillable = [
         'title',
         'from_city',
@@ -18,4 +31,16 @@ class Shipments extends Model
         'user_id',
         'details',
     ];
+
+    public function setStatusAttribute($value)
+    {
+        // Proveri da li je status dozvoljen
+        if (!in_array($value, self::ALLOWED_STATUSES)) {
+            throw new \Exception("Invalid status value: $value");
+        }
+
+        // Ako je status validan, postavi ga
+        $this->attributes['status'] = $value;
+    }
 }
+

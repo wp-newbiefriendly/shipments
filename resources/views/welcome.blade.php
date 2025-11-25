@@ -85,7 +85,7 @@
     }
 
     .carousel-caption {
-        background: linear-gradient(to right, #6a11cb, #2575fc);
+        background: linear-gradient(to left, #6a11cb, #2575fc);
         border-radius: 10px;
     }
 

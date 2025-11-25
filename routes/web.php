@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 Route::resource('shipments', ShipmentController::class);
+Route::get('/shipments/{shipment}', [ShipmentController::class, 'permalink'])->name('shipments.permalink');
