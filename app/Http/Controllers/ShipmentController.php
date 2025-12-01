@@ -36,6 +36,23 @@ class ShipmentController extends Controller
 
     public function store(NewShipmentRequest $request)
     {
+        $fileTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+
+        ];
+
+        foreach($request->documents as $document) {
+            if(str_starts_with($document->getMimeType(), 'image/')) {
+                dd("slika!");
+            }
+            elseif(in_array($document->getMimeType(), $fileTypes)) {
+                dd("pdf!");
+            } else {
+                dd("nepoznata vrsta dokumenta!");
+            }
+        }
         Shipment::create($request->all());
         return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
     }

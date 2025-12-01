@@ -5,7 +5,7 @@
     <div class="container mt-5">
         <h2>Create New Shipment</h2>
 
-        <form action="{{ route('shipments.store') }}" method="POST">
+        <form action="{{ route('shipments.store') }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -46,6 +46,10 @@
                 </select>
             </div>
 
+            <div class="mb-3">
+                <label for="documents" class="form-label">Documents</label>
+                <input type="file" name="documents[]" id="documents" class="form-control-file" multiple required>
+            </div>
 
             <div class="mb-3">
                 <label for="user_id" class="form-label">User ID</label>
