@@ -14,7 +14,7 @@ class ShipmentController extends Controller
      */
     public function index()
     {
-        $cacheKey = 'shipments_unassigned';
+        $cacheKey = 'shipment_unassigned';
 
         $shipments = Cache::remember($cacheKey, 600,
                 fn() => Shipment::where(['status' => Shipment::STATUS_UNASSIGNED])
@@ -36,6 +36,8 @@ class ShipmentController extends Controller
 
     public function store(NewShipmentRequest $request)
     {
+        $shipment = Shipment::create($request->all());
+
         $fileTypes = [
             'application/pdf',
             'application/msword',
@@ -48,12 +50,16 @@ class ShipmentController extends Controller
                 dd("slika!");
             }
             elseif(in_array($document->getMimeType(), $fileTypes)) {
-                dd("pdf!");
-            } else {
-                dd("nepoznata vrsta dokumenta!");
+
+                $extenstion = $document->getClientOriginalExtension();
+
+                $fileName = uniqid().'.'.$extenstion;
+
+                $path = $document->storeAs("documents/{$shipment->id}", $fileName, 'public');
+                dd($path);
             }
         }
-        Shipment::create($request->all());
+
         return redirect()->route('shipments.index')->with('success', 'Shipment created successfully.');
     }
 

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
+    protected $table = 'shipment';
+
     use HasFactory;
 
     const STATUS_IN_PROGRESS = 'in_progress';
