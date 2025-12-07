@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewShipmentRequest;
 use App\Models\Shipment;
+use App\Models\ShipmentDocuments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -14,7 +15,9 @@ class ShipmentController extends Controller
      */
     public function index()
     {
-        $cacheKey = 'shipment_unassigned';
+
+        $cacheKey = 'shipments_unassigned';
+//        Cache::forget('shipments_unassigned');
 
         $shipments = Cache::remember($cacheKey, 600,
                 fn() => Shipment::where(['status' => Shipment::STATUS_UNASSIGNED])
@@ -56,7 +59,11 @@ class ShipmentController extends Controller
                 $fileName = uniqid().'.'.$extenstion;
 
                 $path = $document->storeAs("documents/{$shipment->id}", $fileName, 'public');
-                dd($path);
+
+                ShipmentDocuments::create([
+                    'shipment_id' => $shipment->id,
+                    'document_name' => $path
+                ]);
             }
         }
 
