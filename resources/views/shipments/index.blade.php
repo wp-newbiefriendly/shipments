@@ -27,6 +27,9 @@
                                     more</a></p>
                             <p><strong>User ID:</strong> {{ $shipment->user_id }}</p>
                         </div>
+                        <div class="col-12 text-center mb-2">
+                            <a href="{{ route('shipments.show', $shipment->id) }}" class="btn btn-primary">View</a>
+                        </div>
                         <div class="card-footer text-muted text-center">
                             <small>Shipment ID: {{ $shipment->id }}</small>
                         </div>

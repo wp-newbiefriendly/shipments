@@ -44,5 +44,9 @@ class Shipment extends Model
         // Ako je status validan, postavi ga
         $this->attributes['status'] = $value;
     }
+    public function documents()
+    {
+        return $this->hasMany(ShipmentDocuments::class, 'shipment_id', 'id');
+    }
 }
 

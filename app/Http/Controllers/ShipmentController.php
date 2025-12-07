@@ -54,9 +54,9 @@ class ShipmentController extends Controller
             }
             elseif(in_array($document->getMimeType(), $fileTypes)) {
 
-                $extenstion = $document->getClientOriginalExtension();
+                $extension = $document->getClientOriginalExtension();
 
-                $fileName = uniqid().'.'.$extenstion;
+                $fileName = uniqid().'.'.$extension;
 
                 $path = $document->storeAs("documents/{$shipment->id}", $fileName, 'public');
 
