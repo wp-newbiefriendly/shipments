@@ -89,22 +89,54 @@ class ShipmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Shipment $shipments)
+    public function edit(Shipment $shipment)
     {
-        //
+        return view('shipments.edit', compact('shipment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipment $shipments)
+    public function update(Request $request, Shipment $shipment)
     {
-        //
+        $shipment->update($request->all());
+
+        Cache::forget('shipments_unassigned');
+        Cache::put('shipments_unassigned', Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get(), 600);
+
+        // Obradi dokumente kao u store metodi
+        if ($request->has('documents')) {
+            $fileTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ];
+
+            foreach ($request->documents as $document) {
+                if (str_starts_with($document->getMimeType(), 'image/')) {
+                    $name = $this->uploadImage($document, "documents/$shipment->id");
+                    $name = $shipment->id . "/" . $name;
+
+                    ShipmentDocuments::create([
+                        'shipment_id' => $shipment->id,
+                        'document_name' => $name,
+                    ]);
+                } elseif (in_array($document->getMimeType(), $fileTypes)) {
+                    $extension = $document->getClientOriginalExtension();
+                    $fileName = uniqid() . '.' . $extension;
+                    $path = $document->storeAs("documents/{$shipment->id}", $fileName, 'public');
+
+                    ShipmentDocuments::create([
+                        'shipment_id' => $shipment->id,
+                        'document_name' => $path,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('shipments.index')->with('success', 'Shipment updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Shipment $shipment)
     {
         $shipment->delete();

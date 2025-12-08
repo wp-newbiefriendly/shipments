@@ -30,6 +30,10 @@
                         <div class="col-12 text-center mb-2">
                             <a href="{{ route('shipments.show', $shipment->id) }}" class="btn btn-primary">View</a>
                         </div>
+                        <div class="col-12 text-center mb-4">
+                            <a href="{{ route('shipments.edit', $shipment->id) }}" class="btn btn-success">Edit</a>
+                        </div>
+
                         <div class="col-12 text-center mb-2">
                         <form action="{{ route('shipments.destroy', $shipment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this shipment?');">
                             @csrf
