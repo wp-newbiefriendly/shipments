@@ -5,24 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocuments;
+use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ShipmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ImageUploadTrait;
+
     public function index()
     {
-
         $cacheKey = 'shipments_unassigned';
 //        Cache::forget('shipments_unassigned');
 
-        $shipments = Cache::remember($cacheKey, 600,
-                fn() => Shipment::where(['status' => Shipment::STATUS_UNASSIGNED])
-                ->get()
-        );
+        if (!Cache::has($cacheKey)) {
+            $unassignedShipments = Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get();
+            Cache::put($cacheKey, $unassignedShipments, 600);
+        }
+
+        $shipments = Cache::get($cacheKey);
 
         return view('shipments.index', compact('shipments'));
     }
@@ -50,7 +51,15 @@ class ShipmentController extends Controller
 
         foreach($request->documents as $document) {
             if(str_starts_with($document->getMimeType(), 'image/')) {
-                dd("slika!");
+
+                $name = $this->uploadImage($document, "documents/$shipment->id");
+
+                $name = $shipment->id."/".$name;
+
+                ShipmentDocuments::create([
+                    'shipment_id' => $shipment->id,
+                    'document_name' => $name
+                ]);
             }
             elseif(in_array($document->getMimeType(), $fileTypes)) {
 
@@ -96,8 +105,13 @@ class ShipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shipment $shipments)
+    public function destroy(Shipment $shipment)
     {
-        //
+        $shipment->delete();
+
+        Cache::forget('shipments_unassigned');
+
+        return redirect()->route('shipments.index')->with('success', 'Shipment deleted successfully');
     }
+
 }

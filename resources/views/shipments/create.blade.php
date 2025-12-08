@@ -61,10 +61,10 @@
                 <input type="file" name="documents[]" id="documents" class="form-control-file" multiple required>
             </div>
 
-            <div class="mb-3">
-                <label for="user_id" class="form-label">User ID</label>
-                <input type="number" class="form-control" id="user_id" name="user_id" required>
-            </div>
+{{--            <div class="mb-3">--}}
+{{--                <label for="user_id" class="form-label">User ID</label>--}}
+{{--                <input type="number" class="form-control" id="user_id" name="user_id" required>--}}
+{{--            </div>--}}
 
             <div class="mb-3">
                 <label for="details" class="form-label">Details</label>
@@ -73,5 +73,6 @@
 
             <button type="submit" class="btn btn-primary">Create Shipment</button>
         </form>
+
     </div>
 @endsection

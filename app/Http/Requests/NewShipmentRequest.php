@@ -21,7 +21,7 @@ class NewShipmentRequest extends FormRequest
             'to_country' => 'required|string|max:64',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:in_progress,unassigned,completed,problem',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|exists:users,id',
             'details' => 'required|nullable|string',
             'documents' => 'required|array',
             'documents.*' => 'required|file|mimes:pdf,jpeg,png,jpg,docx,doc|max:10240',
