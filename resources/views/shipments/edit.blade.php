@@ -16,7 +16,7 @@
 
         <form action="{{ route('shipments.update', $shipment->id) }}" enctype="multipart/form-data" method="POST">
             @csrf
-            @method('PUT')  <!-- Dodaj @method('PUT') da bi Laravel znao da se radi o update zahtevu -->
+            @method('PUT')  <!-- @method('PUT') da bi Laravel znao da se radi o update zahtevu -->
 
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
