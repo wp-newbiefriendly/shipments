@@ -1,15 +1,15 @@
 @extends('partials.layout')
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+{{--    @if ($errors->any())--}}
+{{--        <div class="alert alert-danger">--}}
+{{--            <ul>--}}
+{{--                @foreach ($errors->all() as $error)--}}
+{{--                    <li>{{ $error }}</li>--}}
+{{--                @endforeach--}}
+{{--            </ul>--}}
+{{--        </div>--}}
+{{--    @endif--}}
     @section('content')
         @if(session('success'))
             <div class="text-center alert alert-success" id="successMessage">
@@ -54,8 +54,14 @@
                 <input type="number" class="form-control" id="price" name="price" value="{{ old('price', $shipment->price) }}" required>
             </div>
 
+            @if($errors->has('user_id'))
+                <div class="alert alert-danger">
+                <p> {{ $errors->first() }}</p>
+                </div>
+            @endif
+
             <div class="mb-3">
-                <label for="user_ird" class="form-label">Trucker ID</label>
+                <label for="user_id" class="form-label">Trucker ID</label>
                 <input type="number" class="form-control" name="user_id" value="{{ $shipment->user_id ?? '' }}" required>
             </div>
 
