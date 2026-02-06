@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateShipmentRequest extends FormRequest
 {
@@ -16,9 +18,13 @@ class UpdateShipmentRequest extends FormRequest
             'to_country' => 'required|string|max:64',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:in_progress,unassigned,completed,problem',
-            'user_id' => 'nullable|exists:users,id',
             'details' => 'required|nullable|string',
-            'user_id' => 'required|integer|exists:users,id'
+            'user_id' => [
+                'required',
+                Rule::exists('users', 'id')->where(function ($query) {
+                    $query->where('role', User::ROLE_TRUCKER);
+                })
+            ]
         ];
     }
 }
