@@ -18,6 +18,7 @@ class UpdateShipmentRequest extends FormRequest
             'status' => 'required|in:in_progress,unassigned,completed,problem',
             'user_id' => 'nullable|exists:users,id',
             'details' => 'required|nullable|string',
+            'user_id' => 'required|integer|exists:users,id'
         ];
     }
 }
