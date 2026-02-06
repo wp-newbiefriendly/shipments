@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewShipmentRequest;
+use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocuments;
 use App\Traits\ImageUploadTrait;
@@ -97,45 +98,46 @@ class ShipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipment $shipment)
+    public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
-        $shipment->update($request->all());
-
-        Cache::forget('shipments_unassigned');
-        Cache::put('shipments_unassigned', Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get(), 600);
-
-        // Obradi dokumente kao u store metodi
-        if ($request->has('documents')) {
-            $fileTypes = [
-                'application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            ];
-
-            foreach ($request->documents as $document) {
-                if (str_starts_with($document->getMimeType(), 'image/')) {
-                    $name = $this->uploadImage($document, "documents/$shipment->id");
-                    $name = $shipment->id . "/" . $name;
-
-                    ShipmentDocuments::create([
-                        'shipment_id' => $shipment->id,
-                        'document_name' => $name,
-                    ]);
-                } elseif (in_array($document->getMimeType(), $fileTypes)) {
-                    $extension = $document->getClientOriginalExtension();
-                    $fileName = uniqid() . '.' . $extension;
-                    $path = $document->storeAs("documents/{$shipment->id}", $fileName, 'public');
-
-                    ShipmentDocuments::create([
-                        'shipment_id' => $shipment->id,
-                        'document_name' => $path,
-                    ]);
-                }
-            }
-        }
-
-        return redirect()->route('shipments.index')->with('success', 'Shipment updated successfully.');
+        $shipment->update($request->validated());
+        return redirect()->back()->with('success', 'Shipment updated successfully.');
     }
+//        Cache::forget('shipments_unassigned');
+//        Cache::put('shipments_unassigned', Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get(), 600);
+//
+//        // Obradi dokumente kao u store metodi
+//        if ($request->has('documents')) {
+//            $fileTypes = [
+//                'application/pdf',
+//                'application/msword',
+//                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+//            ];
+//
+//            foreach ($request->documents as $document) {
+//                if (str_starts_with($document->getMimeType(), 'image/')) {
+//                    $name = $this->uploadImage($document, "documents/$shipment->id");
+//                    $name = $shipment->id . "/" . $name;
+//
+//                    ShipmentDocuments::create([
+//                        'shipment_id' => $shipment->id,
+//                        'document_name' => $name,
+//                    ]);
+//                } elseif (in_array($document->getMimeType(), $fileTypes)) {
+//                    $extension = $document->getClientOriginalExtension();
+//                    $fileName = uniqid() . '.' . $extension;
+//                    $path = $document->storeAs("documents/{$shipment->id}", $fileName, 'public');
+//
+//                    ShipmentDocuments::create([
+//                        'shipment_id' => $shipment->id,
+//                        'document_name' => $path,
+//                    ]);
+//                }
+//            }
+//        }
+
+//        return redirect()->route('shipments.index')->with('success', 'Shipment updated successfully.');
+//    }
 
     public function destroy(Shipment $shipment)
     {

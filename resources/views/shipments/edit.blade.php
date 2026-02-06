@@ -10,6 +10,12 @@
             </ul>
         </div>
     @endif
+    @section('content')
+        @if(session('success'))
+            <div class="text-center alert alert-success" id="successMessage">
+                {{ session('success') }}
+            </div>
+        @endif
 
     <div class="container mt-5">
         <h2>Edit Shipment</h2>
