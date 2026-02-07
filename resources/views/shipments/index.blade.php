@@ -25,7 +25,8 @@
                             <p><strong>Details:</strong> {{ Str::limit($shipment->details, 150) }} <a href="#"
                                                                                                       class="text-primary">Read
                                     more</a></p>
-                            <p><strong>User ID:</strong> {{ $shipment->user_id }}</p>
+                            <p><strong>Trucker ID:</strong> {{ $shipment->user_id }}</p>
+                            <p><strong>Client ID:</strong> {{ $shipment->client_id }}</p>
                         </div>
                         <div class="col-12 text-center mb-2">
                             <a href="{{ route('shipments.show', $shipment->id) }}" class="btn btn-primary">View</a>

@@ -51,7 +51,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <strong>User ID:</strong> <span>{{ $shipment->user_id }}</span>
+                                    <strong>Trucker ID:</strong> <span>{{ $shipment->user_id }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Client ID:</strong> <span>{{ $shipment->client_id }}</span>
                                 </div>
                             </div>
 
