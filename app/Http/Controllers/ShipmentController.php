@@ -9,6 +9,7 @@ use App\Models\ShipmentDocuments;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class ShipmentController extends Controller
 {
@@ -36,12 +37,14 @@ class ShipmentController extends Controller
 
     public function create()
     {
+        Gate::authorize('canViewCreationPage', Shipment::class);
         return view('shipments.create');
     }
 
     public function store(NewShipmentRequest $request)
     {
-        dd(Auth::user()->role);
+
+        Gate::authorize('create', Shipment::class);
 
         $shipment = Shipment::create($request->all());
 
