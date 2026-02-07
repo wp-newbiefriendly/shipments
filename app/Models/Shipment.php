@@ -64,5 +64,10 @@ class Shipment extends Model
     {
         return $this->hasMany(ShipmentDocuments::class, 'shipment_id', 'id');
     }
+
+    public function scopeUnassignedShipment($query)
+    {
+        return $query->where('status', Shipment::STATUS_UNASSIGNED);
+    }
 }
 

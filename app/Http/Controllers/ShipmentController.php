@@ -17,15 +17,10 @@ class ShipmentController extends Controller
 
     public function index()
     {
-        $cacheKey = 'shipments_unassigned';
 //        Cache::forget('shipments_unassigned');
-
-        if (!Cache::has($cacheKey)) {
-            $unassignedShipments = Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get();
-            Cache::put($cacheKey, $unassignedShipments, 600);
-        }
-
-        $shipments = Cache::get($cacheKey);
+        $shipments = Cache::remember('shipments_unassigned', 600,
+        fn() => Shipment::UnassignedShipment()->get()
+        );
 
         return view('shipments.index', compact('shipments'));
     }
