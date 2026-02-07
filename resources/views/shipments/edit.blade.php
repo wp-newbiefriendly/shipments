@@ -17,7 +17,7 @@
             </div>
         @endif
 
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <h2>Edit Shipment</h2>
 
         <form action="{{ route('shipments.update', $shipment->id) }}" enctype="multipart/form-data" method="POST">
@@ -56,7 +56,7 @@
 
             @if($errors->has('user_id'))
                 <div class="alert alert-danger">
-                <p> {{ $errors->first() }}</p>
+                <p> {{ $errors->first('user_id') }}</p>
                 </div>
             @endif
 
@@ -64,6 +64,18 @@
                 <label for="user_id" class="form-label">Trucker ID</label>
                 <input type="number" class="form-control" name="user_id" value="{{ $shipment->user_id ?? '' }}" required>
             </div>
+
+            @if($errors->has('client_id'))
+                <div class="alert alert-danger">
+                    <p> {{ $errors->first('client_id') }}</p>
+                </div>
+            @endif
+
+            <div class="mb-3">
+                <label for="client_id" class="form-label">Client ID</label>
+                <input type="number" class="form-control" name="client_id" value="{{ $shipment->client_id ?? '' }}" required>
+            </div>
+
 
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
