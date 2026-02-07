@@ -92,18 +92,12 @@ class ShipmentController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Shipment $shipment)
     {
-        Gate::authorize('canViewCreationPage', Shipment::class);
+        Gate::authorize('canViewEdit', Shipment::class);
         return view('shipments.edit', compact('shipment'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
         $shipment->update($request->validated());

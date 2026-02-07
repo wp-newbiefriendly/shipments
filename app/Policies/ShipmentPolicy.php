@@ -68,4 +68,9 @@ class ShipmentPolicy
     {
         return $user->role === User::ROLE_ADMINISTRATOR;
     }
+
+    public function canViewEdit(User $user): bool
+    {
+        return $user->role === User::ROLE_ADMINISTRATOR;
+    }
 }
