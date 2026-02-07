@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocuments;
 use App\Traits\ImageUploadTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class ShipmentController extends Controller
@@ -40,6 +41,8 @@ class ShipmentController extends Controller
 
     public function store(NewShipmentRequest $request)
     {
+        dd(Auth::user()->role);
+
         $shipment = Shipment::create($request->all());
 
         $fileTypes = [
