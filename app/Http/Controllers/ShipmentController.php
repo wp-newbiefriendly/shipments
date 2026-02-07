@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
 use App\Models\ShipmentDocuments;
 use App\Traits\ImageUploadTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ShipmentController extends Controller
