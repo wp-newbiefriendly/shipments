@@ -37,11 +37,6 @@ class Shipment extends Model
         'client_id'
     ];
 
-    public static function booted()
-    {
-        Shipment::observe(ShipmentObserver::class);
-    }
-
     public function setStatusAttribute($value)
     {
         // Proveri da li je status dozvoljen
