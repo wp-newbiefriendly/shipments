@@ -45,13 +45,8 @@ class Shipment extends Model
             }
         });
 
-        static::updated(function () {
-            Cache::forget('shipments_unassigned');
-        });
-
-        static::deleted(function () {
-            Cache::forget('shipments_unassigned');
-        });
+        static::updated(fn ($shipment) => Cache::forget('shipments_unassigned'));
+        static::deleted(fn ($shipment) => Cache::forget('shipments_unassigned'));
 
     }
 
