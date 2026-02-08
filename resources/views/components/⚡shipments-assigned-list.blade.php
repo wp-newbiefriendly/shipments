@@ -4,10 +4,16 @@ use Livewire\Component;
 
 new class extends Component
 {
-    //
+    public int $count = 0;
+
+    public function increment()
+    {
+        $this->count++;
+    }
 };
 ?>
 
 <div>
-     The whole future lies in uncertainty: live immediately. - Seneca
+     <p>Clicked times: {{ $count }}</p>
+    <button wire:click="increment">Click</button>
 </div>
