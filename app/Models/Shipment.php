@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\ShipmentObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -38,16 +39,7 @@ class Shipment extends Model
 
     public static function booted()
     {
-        static::created(function ($shipment) {
-
-            if ($shipment->status === Shipment::STATUS_UNASSIGNED) {
-                Cache::forget('shipments_unassigned');
-            }
-        });
-
-        static::updated(fn ($shipment) => Cache::forget('shipments_unassigned'));
-        static::deleted(fn ($shipment) => Cache::forget('shipments_unassigned'));
-
+        Shipment::observe(ShipmentObserver::class);
     }
 
     public function setStatusAttribute($value)

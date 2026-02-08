@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Observers;
+
+use App\Models\Shipment;
+use Illuminate\Support\Facades\Cache;
+
+class ShipmentObserver
+{
+    public function created(Shipment $shipment)
+    {
+        if ($shipment->status === Shipment::STATUS_UNASSIGNED) {
+            Cache::forget('shipments_unassigned');
+        }
+    }
+
+    public function updated(Shipment $shipment)
+    {
+        Cache::forget('shipments_unassigned');
+    }
+
+    public function deleted(Shipment $shipment)
+    {
+        Cache::forget('shipments_unassigned');
+    }
+
+    /**
+     * Handle the Shipment "restored" event.
+     */
+    public function restored(Shipment $shipment): void
+    {
+        //
+    }
+
+    /**
+     * Handle the Shipment "force deleted" event.
+     */
+    public function forceDeleted(Shipment $shipment): void
+    {
+        //
+    }
+}
