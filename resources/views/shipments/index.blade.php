@@ -78,6 +78,9 @@
             @endforeach
         </div>
     </div>
+
+{{--    <livewire:shipments-assigned-list></livewire:shipments-assigned-list>--}}
+   @livewire('shipments-assigned-list')
 @endsection
 <style>
     .card {

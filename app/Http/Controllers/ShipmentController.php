@@ -9,7 +9,6 @@ use App\Models\ShipmentDocuments;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
