@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::post('/shipment/{shipment}/assignUser', [ShipmentController::class, 'assignUser'])->name('shipments.assignUser');
 
 Route::resource('shipments', ShipmentController::class)
     ->parameters(['shipments' => 'shipment']);

@@ -12,7 +12,7 @@ class Shipment extends Model
 
     use HasFactory;
 
-    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_IN_PROGRESS = 'started';
     const STATUS_UNASSIGNED = 'unassigned';
     const STATUS_COMPLETED = 'completed';
     const STATUS_PROBLEM = 'problem';
@@ -44,6 +44,11 @@ class Shipment extends Model
                 Cache::forget('shipments_unassigned');
             }
         });
+
+        static::updated(function () {
+            Cache::forget('shipments_unassigned');
+        });
+
         static::deleted(function () {
             Cache::forget('shipments_unassigned');
         });

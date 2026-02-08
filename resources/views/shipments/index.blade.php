@@ -1,3 +1,4 @@
+@php use App\Models\User; @endphp
 @extends('partials.layout')
 
 @section('content')
@@ -25,8 +26,32 @@
                             <p><strong>Details:</strong> {{ Str::limit($shipment->details, 150) }} <a href="#"
                                                                                                       class="text-primary">Read
                                     more</a></p>
-                            <p><strong>Trucker ID:</strong> {{ $shipment->user_id }}</p>
+                            {{--                            <p><strong>Trucker ID:</strong> {{ $shipment->user_id }}</p>--}}
                             <p><strong>Client ID:</strong> {{ $shipment->client_id }}</p>
+                            <form method="POST"
+                                  action="{{ route('shipments.assignUser', ['shipment' => $shipment->id]) }}"
+                                  class="mt-2">
+                                @csrf
+
+                                <div class="d-flex gap-2">
+                                    <input type="hidden" name="shipment_id" value="{{ $shipment->id }}">
+                                    <select name="user_id" class="form-select form-select-sm">
+                                        <option selected disabled>Select client</option>
+                                        @foreach(User::where('role','client')->get() as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ $shipment->client_id == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }} ({{ $user->id }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                                        Assign
+                                    </button>
+                                </div>
+                            </form>
+
+
                         </div>
                         <div class="col-12 text-center mb-2">
                             <a href="{{ route('shipments.show', $shipment->id) }}" class="btn btn-primary">View</a>
@@ -36,11 +61,12 @@
                         </div>
 
                         <div class="col-12 text-center mb-2">
-                        <form action="{{ route('shipments.destroy', $shipment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this shipment?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                            <form action="{{ route('shipments.destroy', $shipment->id) }}" method="POST"
+                                  onsubmit="return confirm('Are you sure you want to delete this shipment?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </div>
 
                         <div class="card-footer text-muted text-center">
@@ -91,11 +117,11 @@
 </style>
 <script>
     // Provera da li postoji poruka sa uspehom
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var successMessage = document.getElementById('successMessage');
 
         if (successMessage) {
-            setTimeout(function() {
+            setTimeout(function () {
                 successMessage.style.display = 'none';
             }, 2000);
         }
