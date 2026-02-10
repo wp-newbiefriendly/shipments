@@ -12,9 +12,8 @@ new class extends Component
     }
     public function decrease()
     {
-        $minCount = 0;
-        if($this->count > $minCount) {
-            $this->count--;
+        if($this->count > 0) {
+            $this->count -= 1;
         }
     }
 };
