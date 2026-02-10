@@ -10,12 +10,13 @@ new class extends Component
 
     public function increment()
     {
-        $this->count++;
+        $this->count += $this->amount;
     }
     public function decrease()
     {
-        if($this->count > 0) {
-            $this->count -= 1;
+        $result = $this->count - $this->amount;
+        if($result >= 0) {
+            $this->count -= $this->amount;
         }
     }
 };
