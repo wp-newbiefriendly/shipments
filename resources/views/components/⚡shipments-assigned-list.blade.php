@@ -18,6 +18,10 @@ new class extends Component
         if($result >= 0) {
             $this->count -= $this->amount;
         }
+        else {
+            echo "Greska: Ne moze da ide ispod nule!";
+        }
+
     }
 };
 ?>
