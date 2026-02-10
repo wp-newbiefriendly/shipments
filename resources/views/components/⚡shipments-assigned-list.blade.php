@@ -6,6 +6,8 @@ new class extends Component
 {
     public int $count = 0;
 
+    public int $amount = 1;
+
     public function increment()
     {
         $this->count++;
@@ -23,4 +25,7 @@ new class extends Component
      <p>Clicked times: {{ $count }}</p>
     <button wire:click="increment">Increase</button>
     <button wire:click="decrease">Decrease</button>
+
+    <input type="number" min="1" wire:model.live.debounce="amount" />
+    <p>Amount: {{ $amount }}</p>
 </div>
