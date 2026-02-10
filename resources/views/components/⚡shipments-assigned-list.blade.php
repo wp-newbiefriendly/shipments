@@ -10,10 +10,18 @@ new class extends Component
     {
         $this->count++;
     }
+    public function decrease()
+    {
+        $minCount = 0;
+        if($this->count > $minCount) {
+            $this->count--;
+        }
+    }
 };
 ?>
 
 <div>
      <p>Clicked times: {{ $count }}</p>
-    <button wire:click="increment">Click</button>
+    <button wire:click="increment">Increase</button>
+    <button wire:click="decrease">Decrease</button>
 </div>
