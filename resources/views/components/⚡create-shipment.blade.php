@@ -19,9 +19,18 @@ new class extends Component
    public array $statuses = [];
    public string $status = "";
 
+   public int $clientId;
+
+   public string $clientError
+
    public function mount()
    {
        $this->statuses = \App\Models\Shipment::ALLOWED_STATUSES;
+   }
+
+   public function validateUser()
+   {
+       $this->clientError = "Ovaj korisnik ne postoji";
    }
 
 };
@@ -54,6 +63,17 @@ new class extends Component
         <div class="mb-3">
             <label for="to_country" class="form-label">To Country</label>
             <input type="text" class="form-control" wire:model="toCountry" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" wire:model="price" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="client" class="form-label">Client</label>
+            <p> {{ $clientError }} </p>
+            <input type="number" class="form-control" wire:blue="validateUser" wire:model="clientId" required>
         </div>
 
         <div class="form-group">
