@@ -14,6 +14,16 @@ new class extends Component
 
    public string $toCountry;
 
+   public int $price;
+
+   public array $statuses = [];
+   public string $status = "";
+
+   public function mount()
+   {
+       $this->statuses = \App\Models\Shipment::ALLOWED_STATUSES;
+   }
+
 };
 ?>
 
@@ -44,6 +54,14 @@ new class extends Component
         <div class="mb-3">
             <label for="to_country" class="form-label">To Country</label>
             <input type="text" class="form-control" wire:model="toCountry" required>
+        </div>
+
+        <div class="form-group">
+            <select wire:model="status">
+                @foreach($statuses as $status)
+                    <option value="{{ $status }}">{{ $status }}</option>
+                    @endforeach
+            </select>
         </div>
 
     </form>
