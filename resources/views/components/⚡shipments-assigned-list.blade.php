@@ -26,16 +26,27 @@ new class extends Component
         }
 
     }
+    public function validateAmount()
+    {
+        $this->errMsg = "";
+        if($this->amount < 1) {
+            $this->errMsg = "Amount ne moze biti manji od 1";
+        }
+    }
 };
 ?>
 
 <div>
-     <p>Clicked times: {{ $count }}</p>
+     <p>Clicked times: <span class="{{ $count >= 5000 ? "red" : ""  }}"> {{ $count }} </span></p>
     <button wire:click="increment">Increase</button>
     <button wire:click="decrease">Decrease</button>
 
     <p> {{ $errMsg }}</p>
 
-    <input type="number" min="1" wire:model.live.debounce="amount" />
+    <input type="number" min="1" wire:blur="validateAmount" wire:model.live.debounce="amount" />
     <p>Amount: {{ $amount }}</p>
+
+    <style>
+        .red { color: red; }
+    </style>
 </div>
