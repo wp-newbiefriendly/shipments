@@ -21,7 +21,7 @@ new class extends Component
 
    public int $clientId;
 
-   public string $clientError
+   public string $clientError;
 
    public function mount()
    {
@@ -30,7 +30,12 @@ new class extends Component
 
    public function validateUser()
    {
-       $this->clientError = "Ovaj korisnik ne postoji";
+       $user = \App\Models\User::firstWhere('id', $this->clientId);
+
+       $this->clientError = "";
+       if (!$user) {
+           $this->clientError = "Ovaj korisnik ne postoji";
+       }
    }
 
 };
@@ -73,7 +78,7 @@ new class extends Component
         <div class="mb-3">
             <label for="client" class="form-label">Client</label>
             <p> {{ $clientError }} </p>
-            <input type="number" class="form-control" wire:blue="validateUser" wire:model="clientId" required>
+            <input type="number" class="form-control" wire:blur="validateUser" wire:model="clientId" required>
         </div>
 
         <div class="form-group">
