@@ -1,6 +1,11 @@
 @extends('partials.layout')
 
 @section('content')
+
+    <livewire:create-shipment>
+
+    </livewire:create-shipment>
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
