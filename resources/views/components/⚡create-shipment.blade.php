@@ -39,9 +39,13 @@ new class extends Component
        ]);
    }
 
-   public function submit()
+   public function submit(\App\Services\ShipmentService $shipmentService)
    {
-       $this->test = "hello";
+       $request = new \App\Http\Requests\NewShipmentRequest();
+
+       $data = $this->validate($request->rules());
+
+       $shipmentService->store($data);
    }
 
 };
