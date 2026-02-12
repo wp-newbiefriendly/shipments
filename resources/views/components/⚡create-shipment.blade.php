@@ -21,7 +21,9 @@ new class extends Component
 
    public int $clientId;
 
-   public string $clientError;
+   public array $documents;
+
+   public string $details;
 
    public function mount()
    {
@@ -39,8 +41,10 @@ new class extends Component
 ?>
 
 <div>
+    <div class="container mt-5 mb-5">
+        <h2>Create New Shipment</h2>
 
-    <form>
+    <form class="form-container">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control"
@@ -80,13 +84,26 @@ new class extends Component
             <input type="number" class="form-control" wire:blur="validateUser" wire:model="clientId" required>
         </div>
 
-        <div class="form-group">
-            <select wire:model="status">
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-control" wire:model="status">
                 @foreach($statuses as $status)
                     <option value="{{ $status }}">{{ $status }}</option>
                     @endforeach
             </select>
         </div>
+
+        <div class="mb-3">
+            <label for="documents" class="form-label">Documents</label>
+            <input type="file" wire:model="documents" class="form-control-file" multiple>
+        </div>
+
+        <div class="mb-3">
+            <label for="details" class="form-label">Details</label>
+            <textarea class="form-control" wire:model="details" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Shipment</button>
 
     </form>
 
