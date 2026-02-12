@@ -16,17 +16,16 @@ class NewShipmentRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:128',
-            'from_city' => 'required|string|max:64',
-            'from_country' => 'required|string|max:64',
-            'to_city' => 'required|string|max:64',
-            'to_country' => 'required|string|max:64',
+            'fromCity' => 'required|string|max:64',
+            'fromCountry' => 'required|string|max:64',
+            'toCity' => 'required|string|max:64',
+            'toCountry' => 'required|string|max:64',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:in_progress,unassigned,completed,problem',
-            'user_id' => 'nullable|exists:users,id',
             'details' => 'required|nullable|string',
             'documents' => 'required|array',
             'documents.*' => 'required|file|mimes:pdf,jpeg,png,jpg,docx,doc|max:10240',
-            'client_id' => ['required', new UserClient()]
+            'clientId' => ['required', new UserClient()]
         ];
     }
 

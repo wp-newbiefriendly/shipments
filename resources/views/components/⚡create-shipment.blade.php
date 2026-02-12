@@ -4,6 +4,8 @@ use Livewire\Component;
 
 new class extends Component
 {
+   use \Livewire\WithFileUploads;
+
    public string $title;
 
    public string $fromCity;
@@ -64,7 +66,7 @@ new class extends Component
 
         <div class="mb-3">
             <label for="from_city" class="form-label">From City</label>
-            <input type="text" class="form-control" wire:model="fromCity" >
+            <input type="text" class="form-control" wire:model="fromCity">
         </div>
 
         <div class="mb-3">
