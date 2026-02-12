@@ -47,6 +47,12 @@ new class extends Component
 
        $data = $this->validate($request->rules());
 
+       $data['from_city'] = $this->fromCity;
+       $data['to_city'] = $this->toCity;
+       $data['from_country'] = $this->fromCountry;
+       $data['to_country'] = $this->toCountry;
+       $data['client_id'] = $this->clientId;
+
        $shipmentService->store($data);
    }
 
@@ -58,6 +64,11 @@ new class extends Component
         <h2>Create New Shipment</h2>
 
     <form class="form-container" wire:submit="submit">
+
+        @foreach($errors->all() as $error)
+            {{ $error }}
+        @endforeach
+
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control"
