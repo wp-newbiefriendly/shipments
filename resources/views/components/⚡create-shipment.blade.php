@@ -25,6 +25,8 @@ new class extends Component
 
    public string $details;
 
+   public string $test;
+
    public function mount()
    {
        $this->statuses = \App\Models\Shipment::ALLOWED_STATUSES;
@@ -33,8 +35,13 @@ new class extends Component
    public function validateUser()
    {
        $this->validate([
-           'clientId' => 'required|integer|exists:users,id',
+           'clientId' => '|integer|exists:users,id',
        ]);
+   }
+
+   public function submit()
+   {
+       $this->test = "hello";
    }
 
 };
@@ -44,36 +51,36 @@ new class extends Component
     <div class="container mt-5 mb-5">
         <h2>Create New Shipment</h2>
 
-    <form class="form-container">
+    <form class="form-container" wire:submit="submit">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control"
-                   wire:model="title" required>
+                   wire:model="title" >
         </div>
 
         <div class="mb-3">
             <label for="from_city" class="form-label">From City</label>
-            <input type="text" class="form-control" wire:model="fromCity" required>
+            <input type="text" class="form-control" wire:model="fromCity" >
         </div>
 
         <div class="mb-3">
             <label for="from_country" class="form-label">From Country</label>
-            <input type="text" class="form-control" wire:model="fromCountry" required>
+            <input type="text" class="form-control" wire:model="fromCountry" >
         </div>
 
         <div class="mb-3">
             <label for="to_city" class="form-label">To City</label>
-            <input type="text" class="form-control" wire:model="toCity" required>
+            <input type="text" class="form-control" wire:model="toCity" >
         </div>
 
         <div class="mb-3">
             <label for="to_country" class="form-label">To Country</label>
-            <input type="text" class="form-control" wire:model="toCountry" required>
+            <input type="text" class="form-control" wire:model="toCountry" >
         </div>
 
         <div class="mb-3">
             <label for="price" class="form-label">Price</label>
-            <input type="number" class="form-control" wire:model="price" required>
+            <input type="number" class="form-control" wire:model="price" >
         </div>
 
         <div class="mb-3">
@@ -81,7 +88,7 @@ new class extends Component
             @error('clientId')
             <p>{{ $message }}</p>
             @enderror
-            <input type="number" class="form-control" wire:blur="validateUser" wire:model="clientId" required>
+            <input type="number" class="form-control" wire:blur="validateUser" wire:model="clientId" >
         </div>
 
         <div class="mb-3">
@@ -100,12 +107,12 @@ new class extends Component
 
         <div class="mb-3">
             <label for="details" class="form-label">Details</label>
-            <textarea class="form-control" wire:model="details" required></textarea>
+            <textarea class="form-control" wire:model="details" ></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Create Shipment</button>
 
     </form>
+    </div>
 
-
-</div>
+    </div>
