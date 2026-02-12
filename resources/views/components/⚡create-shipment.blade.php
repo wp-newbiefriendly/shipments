@@ -30,12 +30,9 @@ new class extends Component
 
    public function validateUser()
    {
-       $user = \App\Models\User::firstWhere('id', $this->clientId);
-
-       $this->clientError = "";
-       if (!$user) {
-           $this->clientError = "Ovaj korisnik ne postoji";
-       }
+       $this->validate([
+           'clientId' => 'required|integer|exists:users,id',
+       ]);
    }
 
 };
@@ -77,7 +74,9 @@ new class extends Component
 
         <div class="mb-3">
             <label for="client" class="form-label">Client</label>
-            <p> {{ $clientError }} </p>
+            @error('clientId')
+            <p>{{ $message }}</p>
+            @enderror
             <input type="number" class="form-control" wire:blur="validateUser" wire:model="clientId" required>
         </div>
 
