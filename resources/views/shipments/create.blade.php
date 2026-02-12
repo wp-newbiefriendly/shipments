@@ -5,3 +5,4 @@
     <livewire:create-shipment>
 
     </livewire:create-shipment>
+@endsection
